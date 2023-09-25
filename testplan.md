@@ -22,7 +22,7 @@ EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
 POSTCONDITIONS: 
 * A logo with the alt text "University of Pittsburgh" is present on the page.
-  (Use "assert element present" command on locator with "GIVE" string.)
+  (Use "assert element present" command on locator with "University of Pittsburgh" as alt text.)
 ```
 
 ```
