@@ -1,3 +1,25 @@
+- [CS 1632 - Software Quality Assurance](#cs-1632---software-quality-assurance)
+  * [Description](#description)
+  * [Prerequisites](#prerequisites)
+  * [Task 1: Write test cases](#task-1-write-test-cases)
+    + [Tips for Writing assertions for each Test](#tips-for-writing-assertions-for-each-test)
+    + [Other Tips when using Selenium](#other-tips-when-using-selenium)
+  * [Task 2: Add test cases to test suite and save project](#task-2-add-test-cases-to-test-suite-and-save-project)
+  * [Task 3: Export test suite to JUnit class](#task-3-export-test-suite-to-junit-class)
+    + [Why export to a JUnit class?](#why-export-to-a-junit-class-)
+    + [How to export to JUnit for Selenium IDE](#how-to-export-to-junit-for-selenium-ide)
+    + [Running the JUnit class](#running-the-junit-class)
+  * [Tips for JUnit + Selenium problem solving](#tips-for-junit--selenium-problem-solving)
+    + [How to deal with race conditions](#how-to-deal-with-race-conditions)
+    + [How to enforce uniform window sizes](#how-to-enforce-uniform-window-sizes)
+- [Submission](#submission)
+- [GradeScope Feedback](#gradescope-feedback)
+- [Groupwork Plan](#groupwork-plan)
+- [Resources](#resources)
+- [Extra Credit](#extra-credit)
+  * [Description](#description-1)
+  * [Submission](#submission-1)
+
 # CS 1632 - Software Quality Assurance
 
 * DUE: September 29 (Friday), 2023 11:59 PM
@@ -7,10 +29,10 @@
 ## Description
 
 For this assignment, you and a partner will write a systems-level, automated
-black-box tests for the Reddit website using the Selenium IDE.  Specifically,
-we are going to test our Pitt CS website at:
+black-box tests for the Pitt website using the Selenium IDE.  Specifically,
+we are going to test the URL:
 
-https://cs.pitt.edu/
+https://www.pitt.edu/
 
 ## Prerequisites
 
@@ -86,46 +108,47 @@ title string is the first argument, and the first argument always goes into the
 "Target" box, and the second argument goes into the "Value" box.  Sometimes
 confusing, but that is how it always is.
 
-TEST-2-GIVE-BUTTON - The important thing is when you use the **assert element
+TEST-2-LOGO-EXISTS - The important thing is when you use the **assert element
 present** assertion, you use a locator string that indicates that the element
-contains the text "GIVE".  Otherwise, if you use any random xpath locator
-indicating a position in the HTML page, you will be checking that there exists
-an element in that position, but not that an element with the text "GIVE"
-exists.  By the way, if you have trouble locating the "GIVE" menu, it is at the
-top right corner of the page.
+contains the alt text "University of Pittsburgh".  Otherwise, if you use any
+random xpath locator indicating a position in the HTML page, you will be
+checking that there exists an element in that position, but not that an element
+with the alt text exists.  By the way, the logo with the alt text is the large
+University of Pittsburgh logo at the top left.
 
-TEST-3-GIVE-LINK - You will need to use **store attribute** followed by
-**assert** for the postcondition check.  You will be storing the href attribute
-value to a Selenium variable (named to whatever you prefer) and asserting on
-the value of that variable.  Now the target argument for **store attribute** does
-not directly take a locator string.  If you see the Reference tab for the
-command, you will see that it takes \<locator string\>@\<attribute name\>
-instead, where the attribute name in this case is **href**.  Since the target
-argument is not a locator string, the target selector button is disabled.  If
-you want to still use the target selector to at least get the locator string
-part, you will have to do a workaround and enter a command such as **assert
-text** or **click** which allows you to use the target selector, fill in the
-locator string using it, and then revert back to **store attribute**.
+TEST-3-LOGO-IMAGE - You will need to use **store attribute** followed by
+**assert** for the postcondition check.  You will be storing the **src**
+attribute value of the **img** element to a Selenium variable of your choosing
+and asserting on the value of that variable.  Now the target argument for
+**store attribute** does not directly take a locator string.  If you see the
+Reference tab for the command, you will see that it takes \<locator
+string\>@\<attribute name\> instead, where the attribute name in this case is
+**src**.  Since the target argument is not a locator string, the target
+selector button is disabled.  If you want to still use the target selector to
+at least get the locator string part, you will have to do a workaround and
+enter a command such as **assert text** or **click** which allows you to use
+the target selector, fill in the locator string using it, and then revert back
+to **store attribute**.
 
-TEST-4-RESEARCH-AREA-COMPUTER-VISION - You will **assert text** to check that
-the fifth research area is "Computer Vision".  Now, for the locator passed to
-**assert text**, you cannot use a locator for an element that contains the
-"Computer Vision" text, unlike what we did for TEST-2-GIVE-BUTTON.  Using such
-a locator string would give no indication that the element is the fifth item in
-the list of research areas.  For that, you need an xpath locator including
-"div[5]".
+TEST-4-SCHOOLS-SCI - You will **assert text** to check that the 3rd school in
+the list is "Computing & Information".  Now, for the locator passed to **assert
+text**, you cannot use a locator for an element that contains the "Computing &
+Information" text, unlike what we did for TEST-3-LOGO-EXISTS.  Using such a
+locator string would give us no indication that the element is the 3rd item in
+the list.  For that, you need an xpath locator that includes **li[3]**, or the
+3rd **li** item in a list.
 
-TEST-5-RESEARCH-AREA-COUNT - The logic is that if **assert element present**
-passes for the div[15] item and **assert element not present** passes for the
-div[16] item, there must be exactly 15 divs and 15 research areas.  Now, for
+TEST-5-SCHOOLS-COUNT - The logic is that if **assert element present**
+passes for the **li[16]** item and **assert element not present** passes for the
+**li[17]** item, there must be exactly 16 lis and 16 schools.  Now, for
 the **assert element not present** command, there is no such element so
 obviously you would not be able to use the target selector tool to generate the
 locator string.  You will have to copy the locator string from the **assert
-element present** command and edit the locator so that div[15] becomes div[16].
+element present** command and edit the locator to change li[16] to li[17].
 
-TEST-6-SEARCH-CSC - Just like for TEST-4-RESEARCH-AREA-COMPUTER-VISION, you
-should use an xpath locator string containing div[2], since it is important to
-check the second item in the search list.
+TEST-6-SEARCH-CSC - Just like for TEST-4-SCHOOLS-SCI, you should use an xpath
+locator string containing **div[4]**, since it is important to check the 4th
+item in the search list.
 
 ### Other Tips when using Selenium
 
@@ -176,14 +199,14 @@ documentation, if it exists.
 
 1. There will already be a "Default Suite" there with possibly one or more tests.
 
-1. Right click on "Default Suite", or click on the vertical-3-dot context menu button, and select "Rename" and rename to "PittCS".
+1. Right click on "Default Suite", or click on the vertical-3-dot context menu button, and select "Rename" and rename to "PittEdu".
 
-1. Right click on "PittCS", or click on the vertical-3-dot context menu button,
+1. Right click on "PittEdu", or click on the vertical-3-dot context menu button,
 and select "Add tests".  Make sure all tests are checked the press on the
 "Select" button.
 
 1. Click on the "Save project" button on the top right corner that looks like a
-   floppy disk.  Save to file name "PittCS.side" in the exercise root folder.
+   floppy disk.  Save to file name "PittEdu.side" in the exercise root folder.
 
 ## Task 3: Export test suite to JUnit class
 
@@ -224,17 +247,17 @@ suite in Selenium IDE to a Java JUnit test class.
 
 Follow these instructions:
 
-1. Right click on "PittCS", or click on the vertical-3-dot context menu
+1. Right click on "PittEdu", or click on the vertical-3-dot context menu
    button, and select "Export".
 
 1. Select "Java JUnit" in the list of language options and optionally check
    "Include step descriptions as a separate comment" to generate more detailed
 comments.  Leave other boxes unchecked.
 
-1. Save the resulting file "PittCSTest.java" to the
+1. Save the resulting file "PittEduTest.java" to the
    src/test/java/edu/pitt/cs test source directory.
 
-1. Add the following line to the top of "PittCSTest.java":
+1. Add the following line to the top of "PittEduTest.java":
    ```
    package edu.pitt.cs;
    ```
@@ -248,7 +271,7 @@ comments.  Leave other boxes unchecked.
 
 ### Running the JUnit class
 
-Before starting, let me warn you that your PittCSTest.java JUnit test class is
+Before starting, let me warn you that your PittEduTest.java JUnit test class is
 **may not work**, even after having made the above changes.  That is because
 making Selenium work on websites sometimes requires some
 [massaging](#tips-for-junit--selenium-problem-solving) and the Selenium IDE
@@ -348,9 +371,24 @@ and it only reduces the likelihood of race conditions without removing them
 entirely.  And the catch is, we cannot wait for too long either because it
 will slow down testing.
 
-Luckily, all of our race conditions in PittCS can be solved by simply setting
+Luckily, most of our race conditions in PittEdu can be solved by simply setting
 the implicit wait time at the beginning as explained above.  We just need to
-wait until elements appear on screen before performing actions.  
+wait until elements appear on screen before performing actions.  There is one
+test TEST-4-SCHOOLS-SCI where you may need an explicit wait though.  Otherwise,
+you may get an empty string on the 3rd element in the school list when
+comparing with "Computing & Information".  In that case, you will need to
+insert an explicit wait using the **wait for element visible** command on
+Selenium IDE to wait for the "Colleges & Schools" list header to appear, right
+before performing that assertion, to make sure that the list has correctly
+rendered.  When exported to JUnit code, the Selenium IDE command will get translated to the following snippet of code:
+
+```
+    // 4 | waitForElementVisible | id=block-collegesschools-menu | 30000
+    {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("block-collegesschools-menu")));
+    }
+```
 
 ### How to enforce uniform window sizes
 
@@ -372,28 +410,19 @@ submitting member must use the "View or edit group" link at the top-right
 corner of the assignment page after submission to add his/her partner.  
 
 Submit the repository created by GitHub Classroom for your team to GradeScope
-at the **Exercise 3 GitHub** link.  Make sure the files "PittCS.side" and
-"PittCSTest.java" are in your submission.  Once you submit, GradeScope will
+at the **Exercise 3 GitHub** link.  Make sure the files "PittEdu.side" and
+"PittEduTest.java" are in your submission.  Once you submit, GradeScope will
 run the autograder to grade you and give feedback.  If you get deductions, fix
 your code based on the feedback and resubmit.  Repeat until you don't get
 deductions.
 
 # GradeScope Feedback
 
-The GradeScope autograder works in 2 phases:
+The GradeScope autograder simply runs your 6 tests against www.pitt.edu and
+deducts 5 points per test failure.
 
-1. **RedditCatsTest on https://www.reddit.com/r/cats**: This tests your
-   RedditCatsTest.java file on the cats subreddit as originally intended.  All
-of your tests should pass.
-
-1. **RedditCatsTest on https://www.reddit.com/r/dogs**: This tests your
-   RedditCatsTest.java file on the dogs subreddit, repeating the same steps but
-for a different webpage.  Now some tests should pass but some should fail.
-Specifically, FUN-JOIN-BUTTON-EXISTS and FUN-RULES-12-ITEMS should pass and
-the rest shold fail.
-
-You may be curious how I was able to run the tests on the GradeScope docker
-images when they most likely don't have displays to render the Chrome browser.
+You may be curious how I was able to run the tests on the GradeScope cloud
+runners when they most likely don't have displays to render the Chrome browser.
 The Chrome web driver, as well as other web drivers, can be run in "headless"
 mode.  That is, the tests can be performed inside the web engine without having
 to actually display the page.  This is common practice since in a work setting,
@@ -406,7 +435,7 @@ options.addArguments("--headless");			// Enable running without a display
 options.addArguments("--disable-dev-shm-usage");	// Disable /dev/shm which is limited to 64MB in Docker and use /tmp/ instead to store shared memory files
 ```
 
-I add the above options by replacing the setUp() method in PittCSTest.java
+I add the above options by replacing the setUp() method in PittEduTest.java
 with my own version that looks like the following:
 
 ```
@@ -430,7 +459,7 @@ public void setUp() {
 I want each member in the group to work on this individually and that is why I
 created individual repositories in GitHub Classroom.  Practically, there is
 only one single file that you will be modifying the Selenium IDE (.side)
-project file, or the RedditCatsTest.java file.  And it would be difficult for
+project file, or the PittEduTest.java file.  And it would be difficult for
 both of you to work on that single file.  Parallel modifications would result
 in frequent merge conflicts.  When both of you are done, compare your work and
 submit one finalized version to GradeScope.
@@ -462,26 +491,26 @@ https://www.w3schools.com/cssref/css_selectors.asp
 
 # Extra Credit
 
-DUE: July 25 (Tuesday), 2023 before start of class
+DUE: October 16 (Monday), 2023 before start of class
 
 ## Description
 
 This extra credit is going to be 0.2 points out of 100 points for the entire
 course, for anyone who is able to do this.
 
-Previously, the suggested method for testing FUN-RULES-12-ITEMS was to use
-"assert element present" for the 12th item, followed by a "assert element not
-present" for the 13th item.  
+Previously, the suggested method for testing TEST-5-SCHOOLS-COUNT was to use
+"assert element present" for the 16th item, followed by a "assert element not
+present" for the 17th item.  
 
 Admittedly, this is clunky.  It would be much cleaner if we could count the
-number elements directly and verify that it is 12.
+number elements directly and verify that it is 16.
 
 The Selenium IDE command "store xpath count" allows you to count the number of
 elements that matches an xpath and store it inside a Selenium variable.  You
 can later verify the value of the variable using the "assert" command.  Now,
 you will not be able to acquire that xpath using the target selector button in
 the IDE.  You will have to inspect the element on your web browser and come up
-with a pattern than can match all 12 items in that list.  On both the Chrome
+with a pattern than can match all 16 items in that list.  On both the Chrome
 and Firefox browsers, when you right click on an HTML element to bring up the
 context menu, there is an "Inspect" menu.  Clicking on the "Inspect" menu
 brings up Inspector view.  When you right click on the highlighted element
@@ -502,5 +531,5 @@ digestible: https://www.w3schools.com/xml/xpath_intro.asp.
 Please do a group submission, like the exercise.  Submit the same repository
 that you submitted for the exercise at the **Exercise 3 Extra Credit** link.
 You should get a full score on the autograder and have used "store xpath count"
-to get credit.  Make sure the files "Reddit Cats.side" and
-"RedditCatsTest.java" are in your submission.  
+to get credit.  Make sure the files "PittEdu.side" and
+"PittEduTest.java" are in your submission.  
