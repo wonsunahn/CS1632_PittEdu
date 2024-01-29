@@ -22,7 +22,7 @@
 
 # CS 1632 - Software Quality Assurance
 
-* DUE: September 29 (Friday), 2023 11:59 PM
+* DUE: February 4 (Sunday), 2024 11:59 PM
 
 **GitHub Classroom Link:** TBD
 
@@ -147,7 +147,7 @@ locator string.  You will have to copy the locator string from the **assert
 element present** command and edit the locator to change li[16] to li[17].
 
 TEST-6-SEARCH-CSC - Just like for TEST-4-SCHOOLS-SCI, you should use an xpath
-locator string containing **div[4]**, since it is important to check the 4th
+locator string containing **div[3]**, since it is important to check the 4th
 item in the search list.
 
 ### Other Tips when using Selenium
@@ -302,7 +302,7 @@ case, perform the actions, and close.  In the command line, you should see:
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  44.361 s
-[INFO] Finished at: 2023-09-24T18:51:20-04:00
+[INFO] Finished at: 2024-01-24T18:51:20-04:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -491,7 +491,7 @@ https://www.w3schools.com/cssref/css_selectors.asp
 
 # Extra Credit
 
-DUE: October 16 (Monday), 2023 before start of class
+DUE: February 27 (Tuesday), 2024 before start of class
 
 ## Description
 
