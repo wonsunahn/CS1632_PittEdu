@@ -24,7 +24,7 @@
 
 * DUE: February 11 (Sunday), 2024 11:59 PM
 
-**GitHub Classroom Link:** TBD
+**GitHub Classroom Link:** https://classroom.github.com/a/SqWpRzVd
 
 ## Description
 
@@ -147,7 +147,7 @@ locator string.  You will have to copy the locator string from the **assert
 element present** command and edit the locator to change li[16] to li[17].
 
 TEST-6-SEARCH-CSC - Just like for TEST-4-SCHOOLS-SCI, you should use an xpath
-locator string containing **div[3]**, since it is important to check the 4th
+locator string containing **div[3]**, since it is important to check the 3rd
 item in the search list.
 
 ### Other Tips when using Selenium
