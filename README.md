@@ -22,7 +22,7 @@
 
 # CS 1632 - Software Quality Assurance
 
-* DUE: February 4 (Sunday), 2024 11:59 PM
+* DUE: February 11 (Sunday), 2024 11:59 PM
 
 **GitHub Classroom Link:** TBD
 
