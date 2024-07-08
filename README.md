@@ -22,9 +22,9 @@
 
 # CS 1632 - Software Quality Assurance
 
-* DUE: February 11 (Sunday), 2024 11:59 PM
+* DUE: July 16 (Tuesday), 2024 8:30 AM
 
-**GitHub Classroom Link:** https://classroom.github.com/a/SqWpRzVd
+**GitHub Classroom Link:** TBD
 
 ## Description
 
@@ -302,7 +302,7 @@ case, perform the actions, and close.  In the command line, you should see:
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  44.361 s
-[INFO] Finished at: 2024-01-24T18:51:20-04:00
+[INFO] Finished at: 2024-06-24T18:51:20-04:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -405,10 +405,6 @@ calls to setSize in your test cases):
 
 # Submission
 
-Each pairwise group will do a group submission to GradeScope as usual.  The
-submitting member must use the "View or edit group" link at the top-right
-corner of the assignment page after submission to add his/her partner.  
-
 Submit the repository created by GitHub Classroom for your team to GradeScope
 at the **Exercise 3 GitHub** link.  Make sure the files "PittEdu.side" and
 "PittEduTest.java" are in your submission.  Once you submit, GradeScope will
@@ -456,13 +452,9 @@ public void setUp() {
 
 # Groupwork Plan
 
-I want each member in the group to work on this individually and that is why I
-created individual repositories in GitHub Classroom.  Practically, there is
-only one single file that you will be modifying the Selenium IDE (.side)
-project file, or the PittEduTest.java file.  And it would be difficult for
-both of you to work on that single file.  Parallel modifications would result
-in frequent merge conflicts.  When both of you are done, compare your work and
-submit one finalized version to GradeScope.
+Again, each member will be working individually to complete the exercise on
+individual repositories.  As usual for exercises, you are still free to share
+and discuss each other's code.
 
 # Resources
 
@@ -491,7 +483,7 @@ https://www.w3schools.com/cssref/css_selectors.asp
 
 # Extra Credit
 
-DUE: February 27 (Tuesday), 2024 before start of class
+DUE: July 23 (Tuesday), 2024 before start of class
 
 ## Description
 
@@ -528,8 +520,9 @@ digestible: https://www.w3schools.com/xml/xpath_intro.asp.
 
 ## Submission
 
-Please do a group submission, like the exercise.  Submit the same repository
-that you submitted for the exercise at the **Exercise 3 Extra Credit** link.
-You should get a full score on the autograder and have used "store xpath count"
-to get credit.  Make sure the files "PittEdu.side" and
-"PittEduTest.java" are in your submission.  
+Please do a **group submission** for the extra credit.  Work together on one of
+the individual repositories that you submitted for Exercise 3.  Feel free to
+add your partner as collaborator to the repository.  When you are done, submit
+at the **Exercise 3 Extra Credit** link.  You should get a full score on the
+autograder and have used "store xpath count" to get credit.  Make sure the
+files "PittEdu.side" and "PittEduTest.java" are in your submission.  

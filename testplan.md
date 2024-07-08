@@ -71,6 +71,6 @@ EXECUTION STEPS:
 4. Type [Enter] in the search box.
 POSTCONDITIONS: 
 * The 3rd div element in the search results has the title:
-  "Computer Science Club (CSC) | Department of Computer Science ...". 
-  (Use "assert text" for xpath containing div[4].) 
+  "CSC Officers - CS@Pitt - University of Pittsburgh".
+  (Use "assert text" for xpath containing div[3].) 
 ```
