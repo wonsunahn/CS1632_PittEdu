@@ -24,7 +24,7 @@
 
 * DUE: July 16 (Tuesday), 2024 8:30 AM
 
-**GitHub Classroom Link:** TBD
+**GitHub Classroom Link:** https://classroom.github.com/a/-mFE2_xV
 
 ## Description
 
@@ -411,6 +411,13 @@ at the **Exercise 3 GitHub** link.  Make sure the files "PittEdu.side" and
 run the autograder to grade you and give feedback.  If you get deductions, fix
 your code based on the feedback and resubmit.  Repeat until you don't get
 deductions.
+
+If you have insurmountable difficulties that you could not resolve by either
+asking your classmates or your instructor, please complete the reflection
+section in the ReportTemplate.docx file, export it to ReportTemplate.pdf, and
+then submit the file as part of your repository.  If you do not write a
+reflection even when you have deductions on the autograder, I can only assume
+that you did not put any effort into it.
 
 # GradeScope Feedback
 
