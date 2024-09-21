@@ -67,10 +67,10 @@ PRECONDITIONS: None.
 EXECUTION STEPS:
 1. Open the URL https://www.pitt.edu/ on the web browser.
 2. Click on the search icon.
-3. Type "csc" in the search box that pops up.
+3. Type "computer science club" in the search box that pops up.
 4. Type [Enter] in the search box.
 POSTCONDITIONS: 
-* The 3rd div element in the search results has the title:
-  "CSC Officers - CS@Pitt - University of Pittsburgh".
-  (Use "assert text" for xpath containing div[3].) 
+* Somewhere in the search results is the item:
+  "Student Organization Spotlight: Computer Science Club (CSC)".
+  (Use "assert element present" command on locator with the above as the element text.)
 ```

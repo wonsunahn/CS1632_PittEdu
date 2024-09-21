@@ -2,19 +2,20 @@
   * [Description](#description)
   * [Prerequisites](#prerequisites)
   * [Task 1: Write test cases](#task-1-write-test-cases)
-    + [Tips for Writing assertions for each Test](#tips-for-writing-assertions-for-each-test)
-    + [Other Tips when using Selenium](#other-tips-when-using-selenium)
+    + [Tips for writing assertions for each test](#tips-for-writing-assertions-for-each-test)
+    + [Tips for selecting the best locator string](#tips-for-selecting-the-best-locator-string)
+    + [Other tips when using Selenium IDE](#other-tips-when-using-selenium-ide)
   * [Task 2: Add test cases to test suite and save project](#task-2-add-test-cases-to-test-suite-and-save-project)
   * [Task 3: Export test suite to JUnit class](#task-3-export-test-suite-to-junit-class)
     + [Why export to a JUnit class?](#why-export-to-a-junit-class-)
     + [How to export to JUnit for Selenium IDE](#how-to-export-to-junit-for-selenium-ide)
     + [Running the JUnit class](#running-the-junit-class)
   * [Tips for JUnit + Selenium problem solving](#tips-for-junit--selenium-problem-solving)
-    + [How to deal with race conditions](#how-to-deal-with-race-conditions)
+    + [Conversion of relative URLs to absolute URLs](#conversion-of-relative-urls-to-absolute-urls)
     + [How to enforce uniform window sizes](#how-to-enforce-uniform-window-sizes)
+    + [How to deal with race conditions](#how-to-deal-with-race-conditions)
 - [Submission](#submission)
 - [GradeScope Feedback](#gradescope-feedback)
-- [Groupwork Plan](#groupwork-plan)
 - [Resources](#resources)
 - [Extra Credit](#extra-credit)
   * [Description](#description-1)
@@ -22,7 +23,7 @@
 
 # CS 1632 - Software Quality Assurance
 
-* DUE: July 16 (Tuesday), 2024 8:30 AM
+* DUE: October 3 (Thursday), 2024 before start of class
 
 **GitHub Classroom Link:** https://classroom.github.com/a/-mFE2_xV
 
@@ -92,14 +93,7 @@ The list of available assertions and other commands are available at:
 
 https://www.selenium.dev/selenium-ide/docs/en/api/commands
 
-```
-IDENTIFIER: TEST-TITLE
-TEST CASE: Tests that the title
-PRECONDITIONS: [State of the system before performing execution steps]
-EXECUTION STEPS: [Step-by-step instructions on how to perform test]
-POSTCONDITIONS: [*EXPECTED* state of the system after having performed execution steps]
-```
-### Tips for Writing assertions for each Test
+### Tips for writing assertions for each test
 
 TEST-1-TITLE = This should be pretty straightforward.  Just make sure that when
 you do **assert title**, the expected title string is in the "Target" box and
@@ -146,11 +140,60 @@ obviously you would not be able to use the target selector tool to generate the
 locator string.  You will have to copy the locator string from the **assert
 element present** command and edit the locator to change li[16] to li[17].
 
-TEST-6-SEARCH-CSC - Just like for TEST-4-SCHOOLS-SCI, you should use an xpath
-locator string containing **div[3]**, since it is important to check the 3rd
-item in the search list.
+TEST-6-SEARCH-CSC - Just like for TEST-2-LOGO-EXISTS, you will use an **assert
+element present** assertion to check that "Student Organization Spotlight:
+Computer Science Club (CSC)" is among the search results.  That means you need
+to use a locator string that searches for that specific string in the search
+results, and not a locator string that indicates a certain ranking in the
+results (again, that would only check that the rank exists, not what we want).
 
-### Other Tips when using Selenium
+### Tips for selecting the best locator string
+
+When using the Selenium IDE target selector button, it tries to generate a
+**locator string** as best it can using xpath, css selector, or id tag.  But it
+is not that intelligent.  The problem is that Selenium IDE does not know
+exactly what you are looking for in your testing scenario.  You may be looking
+for an element at a particular position on the web page, or an element with a
+certain text, or an element with a certain image source attribute.  Depending
+on which it is, you will want to use a different locator string.  Now
+regardless of which locator string you choose, your test case will pass as long
+as that locator string finds the target element.  But you would not be testing
+what you want to test.  For example, you might be checking a certain list item
+exists at a certain relative position rather than checking a list item with a
+certain text exists.
+
+   That is why Selenium IDE gives you an option to choose alternative locator
+strings other than its initial suggestion.  You will notice that there is a
+small down arrow at the end of the target text box.  If you click on that
+arrow, you will see alternative locator strings that point to the same element.
+Good news is that Selenium IDE is smart enough that these locator strings all
+uniquely identify the target element.  Bad news is that you have to be smart
+enough to choose the best one.  If you become an expert Selenium programmer,
+you will soon realize that even the alternative suggestions are sometimes
+lacking and you have to come up with your own locator string and type it.
+
+   Here is a list of all the different types of locators available in Selenium:
+
+   https://www.selenium.dev/documentation/webdriver/elements/locators/   
+
+   Here is an in-depth discussion on what are "good" locator strings:
+
+   https://www.selenium.dev/documentation/test_practices/encouraged/locators/
+
+   The above discussion states that using the ID attribute of the element is
+often preferred, if it is available.  That is because the ID attribute always
+uniquely identifies an HTML element (it is actually a [W3 Consortium
+rule](https://www.w3.org/TR/2011/WD-html5-20110525/elements.html#the-id-attribute)).
+Most often, the testing scenario requires you to simply uniquely identify an
+element regardless of its position on the page, its text, or its attributes.
+For example, if the test step is to click on the purchase button, then it
+should not matter where that button is on the page, or whether the button text
+actually says "purchase" or "buy", or what kind of image is used for the
+button.  If there is an ID for that purchase button, it is best to use that ID.
+That way, your test will not be fragile and break the moment you move the
+button or change other properties of the button.
+
+### Other tips when using Selenium IDE
 
 Sometimes your test case will not work as expected.  Here are a few hints on how to debug a problem:
 
@@ -162,36 +205,6 @@ Sometimes your test case will not work as expected.  Here are a few hints on how
 usage instructions for that command.  Remember always, the first argument goes
 to the Target field and the second argument goes to the Value field, regardless
 of command.
-
-1. Sometimes the target component of a test step is the problem.  The selector
-button tries to generate a **locator string** as best it can using xpath, css
-selector, or id tag.  But it is not fool proof.  The problem is, the web page
-may change ever so slightly on the next page load (e.g. due to a new post, or a
-new comment) and then the locator will stop working.  You will notice that
-there is a small down arrow at the end of the target text box.  If you click on
-that arrow, you will see alternative locator strings to the current string.
-These are locator strings that can uniquely identify the element that are being
-proposed by Selenium IDE.  Mind you, there are hundreds of potential locator
-strings that can uniquely identify an element and Selenium IDE is proposing a
-few that it feels is good.
-
-   Here is a list of all the different types of locators available in Selenium:
-
-   https://www.selenium.dev/documentation/webdriver/elements/locators/   
-
-   Here is an in-depth discussion on what are "good" locator strings:
-
-   https://www.selenium.dev/documentation/test_practices/encouraged/locators/
-
-   In summary, good locator string: 1) can locate an element uniquely according
-to the test scenario (e.g. at a particular location, containing a particular
-text, having a certain attribute, etc.) and 2) can withstand the test of time.
-By the test of time, I mean that the locator string should not break even when
-the website goes through future revisions and some parts of the page layout
-changes.  For this, in general, the more concise the locator string is, the
-less chance it has of some page modification changing the string in the middle.
-That is why using the ID attribute is recommended by the Selenium
-documentation, if it exists.
 
 ## Task 2: Add test cases to test suite and save project
 
@@ -283,6 +296,7 @@ opportunity for you to solve these problems and gain a deeper understanding of
 Selenium Web Driver API.
 
 With full expectation with things will fail, let's invoke the Maven test phase:
+
 ```
 mvn test
 ```
@@ -302,7 +316,7 @@ case, perform the actions, and close.  In the command line, you should see:
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  44.361 s
-[INFO] Finished at: 2024-06-24T18:51:20-04:00
+[INFO] Finished at: 2024-09-14T18:51:20-04:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -312,7 +326,42 @@ case that fails using tips listed in the next section.
 
 ## Tips for JUnit + Selenium problem solving
 
-Here are a few tips for dealing with Selenium test failures.
+Here are a few tips for dealing with Selenium JUnit test failures.
+
+### Conversion of relative URLs to absolute URLs
+
+When you do assertions against URLs in JUnit, you may come across test failures
+where the difference is the presence of "https://www.pitt.edu/" in the observed
+URL whereas the expected URL does not contain that prefix.  Now if you inspect
+that element on the web browser by right clicking on it and clicking "Inspect",
+you will see that the actual URL attribute does not contain the
+"https://www.pitt.edu" prefix.  It appears that the Selenium web driver is
+internally attaching that prefix, converting all relative URLs to absolute
+URLs.  Well, according to the Selenium maintainers, this is not a bug but a
+feature:
+
+https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/1943
+
+This is done supposedly for browser compatibility reasons according to a reply
+in the GitHub issue.  So you need to modify the expected URLs in your
+assertions to take into account that behavior.
+
+### How to enforce uniform window sizes
+
+Another common problem is that depending on the browser window size, certain
+elements may disappear.  This is often done by web developers to tailor the
+content to the window size so that it is not too crowded.  If Selenium web
+driver does not explicitly set the size of the browser window, it will default
+to a certain size that may vary depending on the testing platform.  This can
+lead to unrepeatable testing.
+
+One way to solve this is to uniformly set the window size at the @Before
+setUp() method so that all your test cases are tested on the same dimensions
+(and remove all calls to setSize in your test cases):
+
+   ```
+   driver.manage().window().setSize(new Dimension(1200, 800));
+   ```
 
 ### How to deal with race conditions
 
@@ -328,59 +377,47 @@ driver) can happen in arbitrary order.  For example, your web browser may
 not have finished rendering a button before your web driver sends a command
 to click on it.  This leads to nondeterminism and unreproducible testing.
 
-Fortunately, Selenium does provide you with a long list of synchronization
-APIs that allow you to wait for a particular event to happen.  Details about
+So why am I getting these race conditions on the JUnit test all of a sudden,
+when they did not occur with Selenium IDE?  That is likely not because the
+Selenium IDE did not have race conditions.  It is that your JUnit test steps
+execute much more quickly compared to Selenium IDE test steps and more easily
+expose the existing race condition.  You will notice that if you insert a
+Thread.sleep(1000) before steps with race conditions, the frequency of race
+conditions suddenly decreases drastically.  But of course this is not the
+proper way to resolve race conditions because 1) sleep is not a form of
+synchronization that removes races (just makes them less likely) and 2) the
+sleep introduces arbitrary wait time that slows down testing.
+
+Fortunately, Selenium does provide you with a long list of synchronization APIs
+that allow you to wait for the correct moment to perform a step.  Details about
 the different types of wait APIs available on Selenium are described in:
 
 https://www.selenium.dev/documentation/webdriver/waits/
    
-Most of the time, setting an **implicit wait** at the beginning is enough to
-solve most race conditions.  It ensures that the web driver implicitly waits
-for the given amount of time for a target element to be rendered when
-sending any command, before flagging a failure. It is flexible in that it
-will only wait the given amount of time if the element does not load
-quickly, and will proceed immediately if it does.  Insert the following line
-in the @Before setUp() method:
+1. Often, setting an **implicit wait** at the beginning is enough to solve most
+race conditions.  It ensures that the web driver implicitly waits for the given
+amount of time for a target element to be rendered when sending any command,
+before flagging a failure.  Once you set an implicit wait on your web driver
+(most often in the @Before setUp() method), it applies to all Selenium commands
+targeting elements, so it is a quick (and dirty) way to resolve a lot of race
+conditions.
 
-```
-driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-```
-
-In order to use that line, you will need to also import this library:
-
-```
-import java.time.Duration;
-```
-
-Selenium IDE internally uses an implicit wait time of 30 seconds
-when running a script, but when it exports the script to the JUnit test, it
-fails to insert that implicit wait in the @Before setUp() method.  So if you
-want one, you need to insert it yourself.
-
-Sometimes, you may have to synchronize on events other than an element
+1. Sometimes, you may have to synchronize on events other than an element
 getting rendered.  For that, you will have to do an **explicit wait** on that
 event.  Here is an exhaustive list of events that you can wait on:
 
-https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedConditions.html
+   https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/support/ui/ExpectedConditions.html
 
-In some very rare cases, the event that you want to wait on is not in the
-list of events that Selenium supports.  In that case, you have no choice but
-to insert an arbitrary wait such as "Thread.sleep(3000)" (wait for 3
-seconds).  It is best to avoid this because this is not true synchronization
-and it only reduces the likelihood of race conditions without removing them
-entirely.  And the catch is, we cannot wait for too long either because it
-will slow down testing.
+We are going to practice using explicit waits to solve race conditions in our
+two test cases: TEST-4-SCHOOLS-SCI and TEST-6-SEARCH-CSC.
 
-Luckily, most of our race conditions in PittEdu can be solved by simply setting
-the implicit wait time at the beginning as explained above.  We just need to
-wait until elements appear on screen before performing actions.  There is one
-test TEST-4-SCHOOLS-SCI where you may need an explicit wait though.  Otherwise,
-you may get an empty string on the 3rd element in the school list when
-comparing with "Computing & Information".  In that case, you will need to
-insert an explicit wait using the **wait for element visible** command on
-Selenium IDE to wait for the "Colleges & Schools" list header to appear, right
-before performing that assertion, to make sure that the list has correctly
-rendered.  When exported to JUnit code, the Selenium IDE command will get translated to the following snippet of code:
+TEST-4-SCHOOLS-SCI: A race condition may cause you to get an empty string on
+the 3rd element in the school list when comparing with "Computing &
+Information".  In that case, you will need to insert an explicit wait using the
+**wait for element visible** command on Selenium IDE to wait for the "Colleges
+& Schools" list header to appear, right before performing that assertion, to
+make sure that the list has correctly rendered.  When exported to JUnit code,
+the Selenium IDE command will get translated to the following snippet of code:
 
 ```
     // 4 | waitForElementVisible | id=block-collegesschools-menu | 30000
@@ -390,23 +427,51 @@ rendered.  When exported to JUnit code, the Selenium IDE command will get transl
     }
 ```
 
-### How to enforce uniform window sizes
+You may need to import java.time.Duration for the above to compile:
 
-Another common problem is that depending on the browser window size, certain
-elements may disappear.  For example, the Reddit site would hide the "rules"
-bar on the right hand side if the windows is too narrow.  One way to solve
-this is to uniformly set the window size at the @Before setUp() method so
-that all your test cases are tested on the same dimensions (and remove all
-calls to setSize in your test cases):
+```
+import java.time.Duration;
+```
 
-   ```
-   driver.manage().window().setSize(new Dimension(1200, 800));
-   ```
+
+TEST-6-SEARCH-CSC: A race condition may cause you to get an "element not
+interactable" exception when clicking on the search box in order to type
+"computer science club".  That is because there is a delay between clicking on
+the search icon and the search box appearing, during which you are attempting
+the click.  To avoid this, you need to insert an explicit wait using the **wait
+for element editable** command on Selenium IDE targeting the search box so that
+it is ready for editing before clicking on it.  This translates to the below
+JUnit code:
+
+```
+    // 4 | waitForElementEditable | id=gsc-i-id1 | 30000
+    {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+      wait.until(ExpectedConditions.elementToBeClickable(By.id("gsc-i-id1")));
+    }
+```
+
+TEST-6-SEARCH-CSC: A race condition may prevent you from finding the "Student
+Organization Spotlight: Computer Science Club (CSC)" item in the search list.
+The item appears eventually --- it is just that there is a slight delay before
+the search list populates and you are attempting to find the item concurrently.
+To prevent this from happening, insert an explicit wait using the **wait for
+element visible** command on Selenium IDE targeting the 10th element in the
+search list so that the list is fully visible before we attempt to search our
+item.  This translates to the below JUnit code:
+
+```
+    // 8 | waitForElementVisible | xpath=//div[10]/div/div/div/a | 30000
+    {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[10]/div/div/div/a")));
+    }
+```
 
 # Submission
 
-Submit the repository created by GitHub Classroom for your team to GradeScope
-at the **Exercise 3 GitHub** link.  Make sure the files "PittEdu.side" and
+Submit the repository created by GitHub Classroom to GradeScope at the
+**Exercise 3 GitHub** link.  Make sure the files "PittEdu.side" and
 "PittEduTest.java" are in your submission.  Once you submit, GradeScope will
 run the autograder to grade you and give feedback.  If you get deductions, fix
 your code based on the feedback and resubmit.  Repeat until you don't get
@@ -457,12 +522,6 @@ public void setUp() {
 }
 ```
 
-# Groupwork Plan
-
-Again, each member will be working individually to complete the exercise on
-individual repositories.  As usual for exercises, you are still free to share
-and discuss each other's code.
-
 # Resources
 
 These links are the same ones posted at the end of the slides:
@@ -490,7 +549,7 @@ https://www.w3schools.com/cssref/css_selectors.asp
 
 # Extra Credit
 
-DUE: July 23 (Tuesday), 2024 before start of class
+DUE: October 21 (Monday), 2024 before start of class
 
 ## Description
 
@@ -524,12 +583,9 @@ But just like most specifications, it is focused on exact specification rather
 than readability.  You will find this unofficial tutorial using examples more
 digestible: https://www.w3schools.com/xml/xpath_intro.asp.
 
-
 ## Submission
 
-Please do a **group submission** for the extra credit.  Work together on one of
-the individual repositories that you submitted for Exercise 3.  Feel free to
-add your partner as collaborator to the repository.  When you are done, submit
+Please do an extra submission for the extra credit.  When you are done, submit
 at the **Exercise 3 Extra Credit** link.  You should get a full score on the
 autograder and have used "store xpath count" to get credit.  Make sure the
-files "PittEdu.side" and "PittEduTest.java" are in your submission.  
+files "PittEdu.side" and "PittEduTest.java" are in your submission.
