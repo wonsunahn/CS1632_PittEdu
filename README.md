@@ -23,9 +23,9 @@
 
 # CS 1632 - Software Quality Assurance
 
-* DUE: October 2 (Wednesday), 2024 before start of class
+* DUE: February 11 (Tuesday), 2025 before start of class
 
-**GitHub Classroom Link:** https://classroom.github.com/a/-mFE2_xV
+**GitHub Classroom Link:** TBD
 
 ## Description
 
@@ -316,7 +316,7 @@ case, perform the actions, and close.  In the command line, you should see:
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  44.361 s
-[INFO] Finished at: 2024-09-14T18:51:20-04:00
+[INFO] Finished at: 2025-01-14T18:51:20-04:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -549,7 +549,7 @@ https://www.w3schools.com/cssref/css_selectors.asp
 
 # Extra Credit
 
-DUE: October 21 (Monday), 2024 before start of class
+DUE: March 11 (Tuesday), 2025 before start of class
 
 ## Description
 
